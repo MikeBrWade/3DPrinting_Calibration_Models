@@ -14,15 +14,15 @@ cube_dimensions_height       = 20;
 cube_seperation_height       = 4;
 
 // 2) Distance between cubes, with recessed "colars" between them needs to be parameterized
-distance_between_towers         = 30;
-cube_colar_depth                = 1;
+distance_between_towers         = 50;
+cube_colar_depth                = 4;
 
 // 3) Make each cube, a customizable temp and overlay that temp into the cube for easy identification (ordered from bottom to top)
-cube_font                       = "Courier New:style=Regular";
+cube_font                       = "Courier New:style=Bold";
 cube_font_size                  = 8;
-cube_font_depth                 = 3;
-cube_temp_configuration_array   = ["250","225","215","210","205","200","195","190","180"];
-//cube_temp_configuration_array   = ["225","215","200","195","180"];
+cube_font_depth                 = cube_dimensions_width/4;
+//cube_temp_configuration_array   = ["250","225","215","210","205","200","195","190","180"];
+cube_temp_configuration_array   = ["260","230","210","195","170"];
 number_of_cubes_in_the_tower    = len(cube_temp_configuration_array);
 
 // 4) Base of the towers need to be trapazoidal and the colar size configurable
@@ -44,6 +44,12 @@ for(cube_in_stack = [0:number_of_cubes_in_the_tower-1])
                             (cube_dimensions_height+cube_seperation_height/2)*cube_in_stack,
                             cube_temp_configuration_array[cube_in_stack]);
     
+    // Overhang/Bridge
+    translate([0,cube_dimensions_width/2,(cube_dimensions_height+cube_seperation_height/2)*cube_in_stack]) 
+    {
+        overhang(cube_dimensions_width,(distance_between_towers/2)-(cube_dimensions_width/2));
+    }
+
     // Right side tower Set
     translate([0,distance_between_towers,0])
     {   
@@ -55,6 +61,14 @@ for(cube_in_stack = [0:number_of_cubes_in_the_tower-1])
                             0,
                             (cube_dimensions_height+cube_seperation_height/2)*cube_in_stack,
                             cube_temp_configuration_array[cube_in_stack]);
+        
+        rotate([0,0,180])
+        {
+            translate([0,cube_dimensions_width/2,(cube_dimensions_height+cube_seperation_height/2)*cube_in_stack]) 
+            {
+                overhang(cube_dimensions_width,(distance_between_towers/2)-(cube_dimensions_width/2));
+            }
+        }
     }
 }
 
@@ -117,7 +131,19 @@ module embossed_string(string_text)
 	}
 }
 
-
-
-
+module overhang(width, seperation_width) 
+{
+    triangle_points =[[0,0],[width/2,0],[0,width/2],[width/2,width/2]];
+    triangle_paths =[[0,1,2],[3,4,5]];
+    translate([0,0,(width/2)-2]) 
+    {
+        rotate([0,90,0]) 
+        {
+            linear_extrude(height = width, center = true, convexity = width, twist = 0)
+            polygon(triangle_points,triangle_paths,0);
+        }
+    }   
+    translate([-width/2, 0, width/4])
+    cube([width, seperation_width, width/6]);
+}
 
