@@ -3,7 +3,7 @@ $fn = 100;
 
 // The goal of this test is to build a set of towers of different sized "cubes"
 // This tower will then have a process associated with each cube for 
-// a different temp, which can be used to "tune" the temp settings 
+// a different extrusion multiplier, which can be used to "tune" the extruder settings 
 // for a filament.
 
 // Requirements
@@ -17,24 +17,23 @@ cube_seperation_height       = 4;
 distance_between_towers         = 20;
 cube_colar_depth                = 4;
 
-// 3) Make each cube, a customizable temp and overlay that temp into the cube for easy identification (ordered from bottom to top)
-cube_font                       = "Courier New:style=Bold";
-cube_font_size                  = 6;
-cube_font_depth                 = cube_dimensions_width/4;
-//cube_temp_configuration_array   = ["250","225","215","210","205","200","195","190","180"];
-cube_temp_configuration_array   = ["1.15","1.05","1.00","0.95","0.90","0.85"];
-number_of_cubes_in_the_tower    = len(cube_temp_configuration_array);
+// 3) Make each cube, a customizable extrusion multiplier and overlay that value into the cube for easy identification (ordered from bottom to top)
+cube_font                               = "Courier New:style=Bold";
+cube_font_size                          = 6;
+cube_font_depth                         = cube_dimensions_width/4;
+cube_extrusion_configuration_array      = ["1.15","1.05","1.00","0.95","0.90","0.85"];
+number_of_cubes_in_the_tower            = len(cube_extrusion_configuration_array);
 
 // 4) Base of the towers need to be trapazoidal and the colar size configurable
 tower_base_height                   = 4;
 tower_base_additional_colar_size    = 2;
 
 // =============================================================================================================
-// Generate the "twin" tower set, for each temp listed, for the sizes configured, and for the distance configured
+// Generate the "twin" tower set, for each value listed, for the sizes configured, and for the distance configured
 for(cube_in_stack = [0:number_of_cubes_in_the_tower-1])
 {
-    // Left Size tower set
-    temp_cube_and_colar(    cube_dimensions_length,
+    // Tower Instance
+    value_cube_and_colar(   cube_dimensions_length,
                             cube_dimensions_width,
                             cube_dimensions_height,
                             cube_colar_depth,
@@ -42,7 +41,7 @@ for(cube_in_stack = [0:number_of_cubes_in_the_tower-1])
                             0,
                             0,
                             (cube_dimensions_height+cube_seperation_height/2)*cube_in_stack,
-                            cube_temp_configuration_array[cube_in_stack]);
+                            cube_extrusion_configuration_array[cube_in_stack]);
     }
 
 // Generate the base structure
@@ -66,20 +65,20 @@ module tower_base(length,width,height,x_off,y_off,z_off)
     }
 }
 
-module temp_cube_and_colar(length,width,height,colar_depth,sep_height,x_off,y_off,z_off,temp)
+module value_cube_and_colar(length,width,height,colar_depth,sep_height,x_off,y_off,z_off,temp)
 {
     translate([x_off,y_off,z_off])
     {
         // Build the cube, and then its bottom colar
-        embossed_temp_cube(length,width,height,temp);
+        embossed_value_cube(length,width,height,temp);
         translate([0,0,-height/2])
         {
-            temp_cube_colar(length-colar_depth,width-colar_depth,sep_height);
+            value_cube_colar(length-colar_depth,width-colar_depth,sep_height);
         }   
     }
 }
 
-module embossed_temp_cube(length, width, height, temp)
+module embossed_value_cube(length, width, height, temp)
 {
     difference()
     {
@@ -92,7 +91,7 @@ module embossed_temp_cube(length, width, height, temp)
         }           
     }    
 }
-module temp_cube_colar(length, width, height)
+module value_cube_colar(length, width, height)
 {
     cube([length, width, height] , center=true);
 }
@@ -104,19 +103,4 @@ module embossed_string(string_text)
 	}
 }
 
-module overhang(width, seperation_width) 
-{
-    triangle_points =[[0,0],[width/2,0],[0,width/2],[width/2,width/2]];
-    triangle_paths =[[0,1,2],[3,4,5]];
-    translate([0,0,(width/2)-2]) 
-    {
-        rotate([0,90,0]) 
-        {
-            linear_extrude(height = width, center = true, convexity = width, twist = 0)
-            polygon(triangle_points,triangle_paths,0);
-        }
-    }   
-    translate([-width/2, 0, width/3])
-    cube([width, seperation_width, width/15]);
-}
 
