@@ -6,9 +6,9 @@ $fn = 100;
 
 // Requirements
 // 1) Size of the cube
-cube_dimensions_length       = 50;
-cube_dimensions_width        = 50;
-cube_dimensions_height       = 50;
+cube_dimensions_length       = 25;
+cube_dimensions_width        = 25;
+cube_dimensions_height       = 25;
 
 // 2) Allow the font size, and depth to be configurable.
 cube_font                               = "Courier New:style=Bold";
