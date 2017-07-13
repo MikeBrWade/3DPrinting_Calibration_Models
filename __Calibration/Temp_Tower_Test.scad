@@ -143,7 +143,7 @@ module overhang(width, seperation_width)
             polygon(triangle_points,triangle_paths,0);
         }
     }   
-    translate([-width/2, 0, width/4])
-    cube([width, seperation_width, width/6]);
+    translate([-width/2, 0, width/3])
+    cube([width, seperation_width, width/15]);
 }
 
