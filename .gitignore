@@ -3,3 +3,5 @@
 *.gcode
 *.zip
 *.skb
+JPL_Badge/jpl.png
+JPL_Badge/jpl_logo_render.scad
