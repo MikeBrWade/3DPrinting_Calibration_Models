@@ -1,8 +1,10 @@
 $fn=60;
+personal_badge                              = 0; 
+
 // ====================== CONFIG ======================
 badge_width                                 = 56;
 badge_length                                = 87;
-badge_thickness                             = 2.5;//1.2;
+badge_thickness                             = 1.2;
 badge_rounding                              = 2;
 // ----------------------------------------------------
 badge_holder_thickness                      = 2;
@@ -96,6 +98,44 @@ difference()
             }
         }
     }
+    if(personal_badge)
+    {
+        // Add my signature "MIKE"
+        translate([badge_holder_length-4,badge_holder_width/2+7+20,2.1])
+        {
+            rotate([0,180,90])
+            {
+                // For some reason I have to add .1 mm to the text to ensure it full slices out
+                // of the background shape
+                #linear_extrude(badge_holder_thickness+.2)
+                {
+                    //surface(file=badge_holder_logo_picture,invert=true); 
+                    //import(badge_holder_logo_picture); 
+                    text(   "MIKE", 
+                            size = badge_holder_logo_text_size/3, 
+                            font = badge_holder_logo_text_font );
+                }
+            }
+        }
+        // Add my signature "WADE"
+        translate([badge_holder_length-4,2+22,2.1])
+        {
+            rotate([0,180,90])
+            {
+                // For some reason I have to add .1 mm to the text to ensure it full slices out
+                // of the background shape
+                #linear_extrude(badge_holder_thickness+.2)
+                {
+                    //surface(file=badge_holder_logo_picture,invert=true); 
+                    //import(badge_holder_logo_picture); 
+                    text(   "WADE", 
+                            size = badge_holder_logo_text_size/3, 
+                            font = badge_holder_logo_text_font );
+                }
+            }
+        }
+    }
+    
     // Scannable Hole
     translate([badge_holder_bar_code_yoffset,badge_holder_bar_code_xoffset,0])
     {
@@ -128,7 +168,7 @@ difference()
 // FIXME: WADE - This is just a 3D printing patch due to the "P" having a gap
 // internal to the letter that we need to bridge so it sticks to the rest of the 
 // part   
-translate([49,18,0])cube([2,badge_holder_logo_text_size,1]);
+translate([49,18,0])cube([2,badge_holder_logo_text_size,badge_holder_thickness]);
 
 
 
