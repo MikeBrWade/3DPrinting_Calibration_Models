@@ -34,14 +34,14 @@ module embossed_cube(length, width, height, text_depth)
         // Front and Back
         rotate([90,0,90])
         {
-                translate([0,0,(length/2)-cube_font_depth+.01])embossed_string("Y", text_depth);
-                translate([0,0,-(length/2)+cube_font_depth-.01])rotate([0,180,0])embossed_string("Y", text_depth);
+                translate([0,0,(length/2)-cube_font_depth+.01])embossed_string("X", text_depth);
+                translate([0,0,-(length/2)+cube_font_depth-.01])rotate([0,180,0])embossed_string("X", text_depth);
         }      
         // Left and Right
         rotate([90,0,180])
         {
-                translate([0,0,(length/2)-cube_font_depth+.01])embossed_string("X", text_depth);
-                translate([0,0,-(length/2)+cube_font_depth-.01])rotate([0,180,0])embossed_string("X", text_depth);
+                translate([0,0,(length/2)-cube_font_depth+.01])embossed_string("Y", text_depth);
+                translate([0,0,-(length/2)+cube_font_depth-.01])rotate([0,180,0])embossed_string("Y", text_depth);
         }      
         // Top and Bottom
         rotate([180,0,-90])

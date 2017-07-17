@@ -4,7 +4,7 @@ personal_badge                              = 0;
 // ====================== CONFIG ======================
 badge_width                                 = 56;
 badge_length                                = 87;
-badge_thickness                             = 1.2;
+badge_thickness                             = 1.2*2.2;
 badge_rounding                              = 2;
 // ----------------------------------------------------
 badge_holder_thickness                      = 2;
@@ -29,22 +29,22 @@ badge_holder_bar_code_width                 = 14;
 badge_holder_bar_code_yoffset               = 21;
 badge_holder_bar_code_xoffset               = 38;
 // ----------------------------------------------------
-badge_holder_side_bracket_top_thickness     = 1;
+badge_holder_side_bracket_top_thickness     = 2;
 badge_holder_side_bracket_yoffset           = 20;
 badge_holder_side_bracket_length            = 55;
 badge_holder_side_bracket_width             = 3;
 badge_holder_side_bracket_top_width         = 6;
 // ----------------------------------------------------
-badge_holder_bottom_clip_peg_base_radius    = 2;
-badge_holder_bottom_clip_peg_base_height    = 1;
-badge_holder_bottom_clip_peg_length         = 2;
-badge_holder_bottom_clip_peg_width          = 5;
-badge_holder_bottom_clip_peg_height         = 4;
-badge_holder_bottom_clip_length             = 14;
-badge_holder_bottom_clip_width              = 8;
-badge_holder_bottom_clip_roundness          = 1;
+badge_holder_bottom_clip_peg_base_radius    = 3;
+badge_holder_bottom_clip_peg_base_height    = badge_holder_thickness;
+badge_holder_bottom_clip_peg_length         = 3;
+badge_holder_bottom_clip_peg_width          = 6;
+badge_holder_bottom_clip_peg_height         = 6;
+badge_holder_bottom_clip_length             = 16;
+badge_holder_bottom_clip_width              = 10;
+badge_holder_bottom_clip_roundness          = 2;
 badge_holder_bottom_clip_cutout_length      = badge_holder_bottom_clip_length;
-badge_holder_bottom_clip_cutout_width       = 3;
+badge_holder_bottom_clip_cutout_width       = 4;
 badge_holder_bottom_clip_cutout_rounding    = 1;
 // ----------------------------------------------------
 badge_holder_width                  = badge_width + (2*badge_holder_side_bracket_width);
