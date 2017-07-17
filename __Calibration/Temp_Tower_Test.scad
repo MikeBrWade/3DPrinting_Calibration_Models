@@ -8,21 +8,21 @@ $fn = 100;
 
 // Requirements
 // 1) Size of the cubes, and spaces between them need to be parameterized
-cube_dimensions_length       = 20;
-cube_dimensions_width        = 20;
-cube_dimensions_height       = 20;
-cube_seperation_height       = 4;
+cube_dimensions_length       = 15;
+cube_dimensions_width        = 15;
+cube_dimensions_height       = 15;
+cube_seperation_height       = 2;
 
 // 2) Distance between cubes, with recessed "colars" between them needs to be parameterized
-distance_between_towers         = 50;
-cube_colar_depth                = 4;
+distance_between_towers         = cube_dimensions_width*4;
+cube_colar_depth                = 1;
 
 // 3) Make each cube, a customizable temp and overlay that temp into the cube for easy identification (ordered from bottom to top)
 cube_font                       = "Courier New:style=Bold";
-cube_font_size                  = 8;
+cube_font_size                  = 5;
 cube_font_depth                 = cube_dimensions_width/4;
 //cube_temp_configuration_array   = ["250","225","215","210","205","200","195","190","180"];
-cube_temp_configuration_array   = ["260","230","210","195","170"];
+cube_temp_configuration_array   = ["265","255","245","235","225"];
 number_of_cubes_in_the_tower    = len(cube_temp_configuration_array);
 
 // 4) Base of the towers need to be trapazoidal and the colar size configurable
