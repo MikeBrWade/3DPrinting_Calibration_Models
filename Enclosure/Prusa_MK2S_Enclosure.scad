@@ -1,7 +1,5 @@
-include <T-Slot_Extrusions.scad>;
-include <T-Slot_Mounting_Pieces.scad>;
 include <T-Slot_Framing.scad>;
-include <Printer-Spool.scad>;
+include <Printer_Spool.scad>;
 $fn = 200;
 
 // High level Design: 
@@ -27,6 +25,8 @@ $fn = 200;
 
 
 // ================== CONFIG ==================================
+enclosure_brace_length_in_mm              = 30;
+enclosure_brace_mount_hole_size_in_mm     = 5;
 enclosure_frame_t_slot_size_in_mm         = 20;
 enclosure_printer_area_width_in_mm        = 600;
 enclosure_printer_area_length_in_mm       = 650;
@@ -39,12 +39,14 @@ echo("Total Fixture Width  : ", enclosure_printer_area_width_in_mm,enclosure_pri
 echo("Total Fixture Depth  : ", enclosure_printer_area_length_in_mm,enclosure_printer_area_length_in_mm/10/2.54);
 // ============================================================
 
-/*
+
 // Primary Prusa i3 MK2S Enclosure Area
 create_2020_framed_box( enclosure_printer_area_length_in_mm,
                         enclosure_printer_area_width_in_mm,
                         enclosure_printer_area_height_in_mm,
                         enclosure_frame_t_slot_size_in_mm,
+                        enclosure_brace_length_in_mm,
+                        enclosure_brace_mount_hole_size_in_mm,
                         1, 1);
                
 // Base of the Enclosure                        
@@ -54,6 +56,8 @@ translate([0,0,(-enclosure_base_height_in_mm)+enclosure_frame_t_slot_size_in_mm]
                             enclosure_printer_area_width_in_mm,
                             enclosure_base_height_in_mm,
                             enclosure_frame_t_slot_size_in_mm,
+                            enclosure_brace_length_in_mm,
+                            enclosure_brace_mount_hole_size_in_mm,
                             1, 0);
 }
 
@@ -64,6 +68,8 @@ translate([0,0,(+enclosure_printer_area_height_in_mm)-enclosure_frame_t_slot_siz
                             enclosure_printer_area_width_in_mm,
                             enclosure_base_height_in_mm,
                             enclosure_frame_t_slot_size_in_mm,
+                            enclosure_brace_length_in_mm,
+                            enclosure_brace_mount_hole_size_in_mm,
                             0, 1);
     // Create the "Set" of printer spools
     translate([0,0,200])
@@ -75,9 +81,6 @@ translate([0,0,(+enclosure_printer_area_height_in_mm)-enclosure_frame_t_slot_siz
 
 // Import the Prusa i3 MK2 Model just to check for fit etc
 %rotate([0,0,90])translate([-135,-475,85])import("Prusa-i3-MK2-full.stl");
-*/
-
-tslot_corner_support_brace(50, 20, 5, 1, 5.8, 0.10);
 
 
 module create_printer_spool_set()

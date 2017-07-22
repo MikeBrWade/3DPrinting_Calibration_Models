@@ -1,17 +1,24 @@
+include <T-Slot_Extrusions.scad>;
+include <T-Slot_Mounting_Pieces.scad>;
+
 // Allow for different frame items to be constructed out of tslot sets
+brace_guide_depth_in_mm                 = 1;
+brace_guide_width_in_mm                 = 5.8;  // Based on 2020 extrusion measured width
+brace_bracket_wall_thickenss_in_percent = 0.10; // Increase for strength
 
-
+// test rendering
+//create_2020_framed_box( 200, 300, 200, 20, 30, 5,1, 1);
 
 // Make the l/w/h all parameterized, also ensure that top and bottom sections can be 
 // turned on and off for modeling stacked configurations
-module create_2020_framed_box(length,width,height,frame_size,enable_bottom,enable_top)
+module create_2020_framed_box(length,width,height,frame_size,brace_length,mount_hole_size,enable_bottom,enable_top)
 {
     // Bottom Frame
     if(enable_bottom == 1)
     {
         rotate([90,0,0])
         {
-            frame_piece( length, width, frame_size);
+            frame_piece( length, width, frame_size, brace_length, mount_hole_size);
         }
     }
     
@@ -49,11 +56,13 @@ module create_2020_framed_box(length,width,height,frame_size,enable_bottom,enabl
         2020Profile(height-(frame_size*2), core = ProfileCore);
         echo("FL-2020: ",height, "mm");
     }
+    
 }
 
-module frame_piece(length, width, extrusion_size)
-{
-    
+
+// This is a "box" that has all 4 pieces and is used to create the base of a structure
+module frame_piece(length, width, extrusion_size, brace_length,mount_hole_size)
+{   
     
         // Back
         2020Profile(width, core = ProfileCore);echo("B-2020: ",width, "mm");
@@ -69,4 +78,21 @@ module frame_piece(length, width, extrusion_size)
             // Right
             translate([(width/2)-(extrusion_size/2),0,length/2]){2020Profile(length-(extrusion_size), core = ProfileCore);echo("R-2020: ",length-(extrusion_size), "mm");}
         }
+        
+        // Generate the braces
+        // Back-Left Brace
+        rotate([-90,-90,0])translate([(width/2)-extrusion_size-brace_length,extrusion_size/2,-extrusion_size/2])
+        tslot_corner_support_brace(brace_length, extrusion_size, mount_hole_size, brace_guide_depth_in_mm, brace_guide_width_in_mm, brace_bracket_wall_thickenss_in_percent);
+        
+        // Back-Right Brace
+        rotate([90,90,0])translate([(width/2)-extrusion_size-brace_length,extrusion_size/2,-extrusion_size/2])
+        tslot_corner_support_brace(brace_length, extrusion_size, mount_hole_size, brace_guide_depth_in_mm, brace_guide_width_in_mm, brace_bracket_wall_thickenss_in_percent);
+        
+        // Front-Right Brace
+        translate([(length-extrusion_size/2),-(extrusion_size/2),(-width/2)+brace_length+extrusion_size])rotate([0,90,90])
+        tslot_corner_support_brace(brace_length, extrusion_size, mount_hole_size, brace_guide_depth_in_mm, brace_guide_width_in_mm, brace_bracket_wall_thickenss_in_percent);
+        
+        // Front-Left Brace
+        translate([(length-extrusion_size/2),(extrusion_size/2),(width/2)-brace_length-extrusion_size])rotate([0,-90,90])
+        tslot_corner_support_brace(brace_length, extrusion_size, mount_hole_size, brace_guide_depth_in_mm, brace_guide_width_in_mm, brace_bracket_wall_thickenss_in_percent);
 }
