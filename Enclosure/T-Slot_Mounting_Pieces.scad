@@ -1,4 +1,8 @@
 // Parameterized tslot brace set
+$fn = 100;
+
+// Testing
+//tslot_corner_support_brace(50, 20, 5, 1, 5.8, 0.10);
 
 
 // 90 degree angle corder brace with adjustable tslot size, hole cut out, depth and width for the guide rail

@@ -25,14 +25,14 @@ $fn = 200;
 
 
 // ================== CONFIG ==================================
-enclosure_brace_length_in_mm              = 30;
+enclosure_brace_length_in_mm              = 50;
 enclosure_brace_mount_hole_size_in_mm     = 5;
 enclosure_frame_t_slot_size_in_mm         = 20;
 enclosure_printer_area_width_in_mm        = 600;
-enclosure_printer_area_length_in_mm       = 650;
-enclosure_printer_area_height_in_mm       = 700;
-enclosure_base_height_in_mm               = 500;
-enclosure_filament_storage_height_in_mm   = 200;
+enclosure_printer_area_length_in_mm       = 600;
+enclosure_printer_area_height_in_mm       = 600;
+enclosure_base_height_in_mm               = 600;
+enclosure_filament_storage_height_in_mm   = 300;
 enclosure_total_height_in_mm              = enclosure_base_height_in_mm+enclosure_filament_storage_height_in_mm+enclosure_printer_area_height_in_mm+(enclosure_frame_t_slot_size_in_mm*4);
 echo("Total Fixture Height : ", enclosure_total_height_in_mm, enclosure_total_height_in_mm/10/2.54);
 echo("Total Fixture Width  : ", enclosure_printer_area_width_in_mm,enclosure_printer_area_width_in_mm/10/2.54);
@@ -74,13 +74,13 @@ translate([0,0,(+enclosure_printer_area_height_in_mm)-enclosure_frame_t_slot_siz
     // Create the "Set" of printer spools
     translate([0,0,200])
     {
-        create_printer_spool_set();
+        //create_printer_spool_set();
     }
 
 }
 
 // Import the Prusa i3 MK2 Model just to check for fit etc
-%rotate([0,0,90])translate([-135,-475,85])import("Prusa-i3-MK2-full.stl");
+//rotate([0,0,90])translate([-135,-475,85])import("Prusa-i3-MK2-full.stl");
 
 
 module create_printer_spool_set()

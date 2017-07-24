@@ -7,7 +7,8 @@ brace_guide_width_in_mm                 = 5.8;  // Based on 2020 extrusion measu
 brace_bracket_wall_thickenss_in_percent = 0.10; // Increase for strength
 
 // test rendering
-//create_2020_framed_box( 200, 300, 200, 20, 30, 5,1, 1);
+//create_2020_framed_box( 200, 300, 200, 20, 50, 5, 1, 1);
+
 
 // Make the l/w/h all parameterized, also ensure that top and bottom sections can be 
 // turned on and off for modeling stacked configurations
@@ -27,35 +28,81 @@ module create_2020_framed_box(length,width,height,frame_size,brace_length,mount_
     {
         rotate([90,0,0])translate([0,height-frame_size,0])
         {
-            frame_piece( length, width, frame_size);
+            frame_piece( length, width, frame_size, brace_length, mount_hole_size);
         }
     }
     
     // Height Frame Supports
     // Back-Left
-    translate([ 0, (-width/2)+(frame_size/2), (height/2)-(frame_size/2)])
+    translate([ 0, (-width/2)+(frame_size/2), (height/2)-(frame_size/2)])rotate([0,0,0])
     {
-        2020Profile( height-(frame_size*2), core = ProfileCore);
-        echo("BL-2020: ",height, "mm");
+        frame_verticle_strut(height-(frame_size*2),frame_size, brace_length, mount_hole_size);
     }
     // Back-Right
-    translate([ 0, (width/2)-(frame_size/2), (height/2)-(frame_size/2)])
+    translate([ 0, (width/2)-(frame_size/2), (height/2)-(frame_size/2)])rotate([0,0,-90])
     {
-        2020Profile( height-(frame_size*2), core = ProfileCore);
-        echo("BR-2020: ",height, "mm");
+        frame_verticle_strut(height-(frame_size*2),frame_size, brace_length, mount_hole_size);
     }
     // Front-Right
-    translate([ length, (width/2)-(frame_size/2), (height/2)-(frame_size/2)])
+    translate([ length, (width/2)-(frame_size/2), (height/2)-(frame_size/2)])rotate([0,0,180])
     {
-        2020Profile(height-(frame_size*2), core = ProfileCore);
-        echo("FR-2020: ",height, "mm");
+        frame_verticle_strut(height-(frame_size*2),frame_size, brace_length, mount_hole_size);
     }
     // Front-Left
-    translate([ length, (-width/2)+(frame_size/2), (height/2)-(frame_size/2)])
+    translate([ length, (-width/2)+(frame_size/2), (height/2)-(frame_size/2)])rotate([0,0,90])
     {
-        2020Profile(height-(frame_size*2), core = ProfileCore);
-        echo("FL-2020: ",height, "mm");
+        frame_verticle_strut(height-(frame_size*2),frame_size, brace_length, mount_hole_size);
     }
+    
+}
+
+module frame_verticle_strut(height, extrusion_size, brace_length, mount_hole_size)
+{
+    echo("Strut-2020: ",height, "mm");
+    // Main Strut Body
+    2020Profile(height , core = ProfileCore);
+    
+    // Top Pair of Brackets
+    translate([extrusion_size/2,-extrusion_size/2,(height/2)-brace_length])rotate([-90,-90,0])
+    {
+        tslot_corner_support_brace( brace_length, 
+                                    extrusion_size, 
+                                    mount_hole_size, 
+                                    brace_guide_depth_in_mm, 
+                                    brace_guide_width_in_mm, 
+                                    brace_bracket_wall_thickenss_in_percent);
+    }
+    translate([(extrusion_size/2),(extrusion_size/2), height/2-brace_length])rotate([0,-90,0])
+    {
+        tslot_corner_support_brace( brace_length, 
+                                    extrusion_size, 
+                                    mount_hole_size, 
+                                    brace_guide_depth_in_mm, 
+                                    brace_guide_width_in_mm, 
+                                    brace_bracket_wall_thickenss_in_percent);
+    }
+    
+    // Bottom pair of Brackets
+
+    translate([brace_length+(extrusion_size/2),-extrusion_size/2,(-height/2)])rotate([-90,180,0])
+    {
+        tslot_corner_support_brace( brace_length, 
+                                    extrusion_size, 
+                                    mount_hole_size, 
+                                    brace_guide_depth_in_mm, 
+                                    brace_guide_width_in_mm, 
+                                    brace_bracket_wall_thickenss_in_percent);
+    }
+    translate([-extrusion_size/2,extrusion_size/2,-height/2+brace_length])rotate([0,90,0])
+    {
+        tslot_corner_support_brace( brace_length, 
+                                    extrusion_size, 
+                                    mount_hole_size, 
+                                    brace_guide_depth_in_mm, 
+                                    brace_guide_width_in_mm, 
+                                    brace_bracket_wall_thickenss_in_percent);
+    }
+
     
 }
 

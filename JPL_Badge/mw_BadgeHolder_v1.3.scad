@@ -251,7 +251,7 @@ translate([ badge_holder_lanyard_length,
 }
 // Creation of a Box with X/Y/Z size, and rounded
 // corners with R width
-module RoundedCube(xdim ,ydim ,zdim,rdim)
+module RoundedCube(xdim ,ydim,zdim,rdim)
 {
     hull()
     {
