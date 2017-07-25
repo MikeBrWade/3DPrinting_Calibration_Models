@@ -393,7 +393,7 @@ module leaf ( gender )
     
     rotate ( [ 0, 0, gender_angle ] )
     {
-        color ( m_component_color )
+        //color ( m_component_color )
         difference ()
         {
             // Cut pin hole.
