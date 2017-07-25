@@ -3,6 +3,8 @@ include <Printer_Spool.scad>;
 include <Enclosure_Door.scad>;
 $fn = 200;
 
+RENDER_ALL_PARTS = true;
+
 // High level Design: 
 //  1)  Encase the Prusa i3 MK2S & MMU attachment fully
 //  2)  Provide filtered air exhaust
@@ -29,7 +31,7 @@ $fn = 200;
 enclosure_brace_length_in_mm              = 50;
 enclosure_brace_mount_hole_size_in_mm     = 5;
 enclosure_frame_t_slot_size_in_mm         = 20;
-enclosure_panel_thickness_in_mm           = 1;
+enclosure_panel_thickness_in_mm           = 3;
 enclosure_printer_area_length_in_mm       = 600;
 enclosure_printer_area_width_in_mm        = 600;
 enclosure_printer_area_height_in_mm       = 600;
@@ -81,8 +83,11 @@ translate([0,0,(+enclosure_printer_area_height_in_mm)-enclosure_frame_t_slot_siz
                             enclosure_brace_mount_hole_size_in_mm,
                             0, 1);
     // Create the "Set" of printer spools
-    translate([0,0,200])create_printer_spool_set();
-    translate([0,0,450])create_printer_spool_set();
+    if( RENDER_ALL_PARTS == true)
+    {
+        translate([0,0,200])create_printer_spool_set();
+        translate([0,0,450])create_printer_spool_set();
+    }
 }
 translate([0,0,-enclosure_printer_area_height_in_mm+enclosure_frame_t_slot_size_in_mm])
 {
@@ -90,7 +95,8 @@ translate([0,0,-enclosure_printer_area_height_in_mm+enclosure_frame_t_slot_size_
 }
 
 // Import the Prusa i3 MK2 Model just to check for fit etc
-rotate([0,0,90])translate([-135,-475,85])import("Prusa-i3-MK2-full.stl");
+if( RENDER_ALL_PARTS == true)
+    rotate([0,0,90])translate([-135,-475,85])import("Prusa-i3-MK2-full.stl");
 /**/
 
 // FIXME: WADE - might want to move this to the frame sub file

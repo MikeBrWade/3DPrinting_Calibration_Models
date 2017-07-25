@@ -60,7 +60,8 @@ module frame_verticle_strut(height, extrusion_size, brace_length, mount_hole_siz
 {
     echo("Strut-2020: ",height, "mm");
     // Main Strut Body
-    2020Profile(height , core = ProfileCore);
+    if( RENDER_ALL_PARTS == true)
+        2020Profile(height , core = ProfileCore);
     
     // Top Pair of Brackets
     translate([extrusion_size/2,-extrusion_size/2,(height/2)-brace_length])rotate([-90,-90,0])
@@ -111,12 +112,16 @@ module frame_verticle_strut(height, extrusion_size, brace_length, mount_hole_siz
 module frame_piece(length, width, extrusion_size, brace_length,mount_hole_size)
 {   
     
-        // Back
-        2020Profile(width, core = ProfileCore);echo("B-2020: ",width, "mm");
-        // Front
-        translate([length,0,0]){2020Profile(width, core = ProfileCore);echo("F-2020: ",width, "mm");}
+    if( RENDER_ALL_PARTS == true)
+    {
+            // Back
+            2020Profile(width, core = ProfileCore);echo("B-2020: ",width, "mm");
+            // Front
+            translate([length,0,0]){2020Profile(width, core = ProfileCore);echo("F-2020: ",width, "mm");}
+    }
     
-    
+    if( RENDER_ALL_PARTS == true)
+    {
         // Sides (Left and Right)
         rotate([0,90,0])
         {
@@ -125,6 +130,7 @@ module frame_piece(length, width, extrusion_size, brace_length,mount_hole_size)
             // Right
             translate([(width/2)-(extrusion_size/2),0,length/2]){2020Profile(length-(extrusion_size), core = ProfileCore);echo("R-2020: ",length-(extrusion_size), "mm");}
         }
+    }
         
         // Generate the braces
         // Back-Left Brace

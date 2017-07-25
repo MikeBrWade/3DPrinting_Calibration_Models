@@ -3,6 +3,7 @@ $fn = 128;
 // GOAL: Parameterized Enclosure Door
 DEBUG = false;
 
+
 // REQUIREMENTS:
 //  1) Be able to generate a single pane or a dual pane door
 //  2) Optionally allow for hinges, fixed mounts, or magneticly mounted
@@ -10,9 +11,9 @@ DEBUG = false;
 
 // CONFIGURATION:
 //  1) length, width, thickness of pane
-pane_width                      = 12*2*25.4;
-pane_length                     = 24*25.4;
-pane_thickness                  = 0.25;
+pane_width                      = 600;//12*2*25.4;
+pane_length                     = 600;//24*25.4;
+pane_thickness                  = 3;
 
 //  2) length, width, angle of hinge (Magnetic Parameters)
 mounting_hinge_width            = 40;
@@ -32,7 +33,7 @@ C_DOOR_TYPE_HALF_PANE_HINGE     = 1;
 C_DOOR_TYPE_FULL_PANE_HINGE     = 2;
 C_DOOR_TYPE_STATIC_MOUNT        = 3;
 C_DOOR_TYPE_MAGNETIC_REMOVABLE  = 4;
-enclosure_door_type             = C_DOOR_TYPE_MAGNETIC_REMOVABLE; 
+enclosure_door_type             = C_DOOR_TYPE_HALF_PANE_HINGE; 
 
 
 
@@ -44,12 +45,15 @@ enclosure_door_type             = C_DOOR_TYPE_MAGNETIC_REMOVABLE;
 // =======================================================================================
 //door_pane(  pane_length,pane_width,pane_thickness);
 //door_handle(door_handle_length, door_handle_width, door_handle_base_thickness);
-//door_magnetic_mount(    mounting_hinge_width,mounting_hinge_width,mounting_hinge_gauge,
-//                        20,pane_thickness,mounting_hinge_magnet_radius,mounting_hinge_magnet_thickness);
+/*
+door_magnetic_mount(    mounting_hinge_width,mounting_hinge_width,mounting_hinge_gauge,
+                        20,pane_thickness,mounting_hinge_magnet_radius,mounting_hinge_magnet_thickness);
+/**/
 /*
 door_pane(  pane_length,pane_width,pane_thickness,
             door_type = enclosure_door_type);
 
+/**/
 /*
 door_pane(  pane_length,pane_width,pane_thickness,
             enclosure_door_type,
@@ -81,16 +85,29 @@ module door_pane(   length, width, thickness,
         echo("Door Pane:" ,l_hinge_length, l_hinge_width, l_hinge_gauge);
         
     }
+    
+    if(l_door_type == C_DOOR_TYPE_HALF_PANE_HINGE)
+    {
+        echo("PART| Plexiglass ", length/2, " mm", width/2, " mm", length/2/25.4, " mm", width/2/25.4, " mm", " $13.20 ");
+        echo("PART| Plexiglass ", length/2, " mm", width/2, " mm", length/2/25.4, " mm", width/2/25.4, " mm", " $13.20 ");
+    }
+    else
+    {
+        echo("PART| Plexiglass ", length, " mm", width, " mm", length/25.4, " inch", width/25.4, " inch $21.85");
+    }
         
     
     // If the door type is a half door with hinges
     if(l_door_type == C_DOOR_TYPE_HALF_PANE_HINGE)
     {
-        // Main acrylic Pane (LEFT)
-        %translate([0,-width/4,0])rotate([l_hinge_angle,0,0])cube([length, width/2-.5, thickness], center = true);
-        // Main acrylic Pane (RIGHT)
-        %translate([0,width/4+1,0])rotate([l_hinge_angle,0,0])cube([length, width/2-.5, thickness], center = true);
         
+        if( RENDER_ALL_PARTS == true)
+        {
+            // Main acrylic Pane (LEFT)
+            %translate([0,-width/4,0])rotate([l_hinge_angle,0,0])cube([length, width/2-.5, thickness], center = true);
+            // Main acrylic Pane (RIGHT)
+            %translate([0,width/4+1,0])rotate([l_hinge_angle,0,0])cube([length, width/2-.5, thickness], center = true);
+        }
         // Left side hinge set
         translate([-length/2+l_hinge_length/2,-width/2,mounting_hinge_gauge+thickness])rotate([0,0,90])butt_hinge();
         translate([+length/2-l_hinge_length/2,-width/2,mounting_hinge_gauge+thickness])rotate([0,0,90])butt_hinge();
@@ -108,7 +125,8 @@ module door_pane(   length, width, thickness,
     if(l_door_type == C_DOOR_TYPE_FULL_PANE_HINGE)
     {
         // Main acrylic Pane
-        %rotate([l_hinge_angle,0,0])cube([length, width, thickness], center = true);
+        if( RENDER_ALL_PARTS == true)
+            %rotate([l_hinge_angle,0,0])cube([length, width, thickness], center = true);
         
         // Left side hinge set
         translate([-length/2+l_hinge_length/2,-width/2,mounting_hinge_gauge+thickness])rotate([0,0,90])butt_hinge();
@@ -137,7 +155,8 @@ module door_pane(   length, width, thickness,
     if(l_door_type == C_DOOR_TYPE_MAGNETIC_REMOVABLE)
     {
         // Main acrylic Pane
-        %rotate([l_hinge_angle,0,0])cube([length, width, thickness], center = true);
+        if( RENDER_ALL_PARTS == true)
+            %rotate([l_hinge_angle,0,0])cube([length, width, thickness], center = true);
         
         // Magnetic Mount TL
         translate([-length/2+l_hinge_length/2-20,-width/2+20/2,-l_hinge_gauge/2])rotate([0,0,0])
