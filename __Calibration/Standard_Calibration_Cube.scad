@@ -6,14 +6,14 @@ $fn = 100;
 
 // Requirements
 // 1) Size of the cube
-cube_dimensions_length       = 25;
-cube_dimensions_width        = 25;
-cube_dimensions_height       = 25;
+cube_dimensions_length       = 20;
+cube_dimensions_width        = 20;
+cube_dimensions_height       = 20;
 
 // 2) Allow the font size, and depth to be configurable.
 cube_font                               = "Courier New:style=Bold";
-cube_font_size                          = min(cube_dimensions_length,cube_dimensions_width);
-cube_font_depth                         = min(cube_dimensions_length,cube_dimensions_width,cube_dimensions_height)/14;
+cube_font_size                          = min(cube_dimensions_length,cube_dimensions_width)*.75;
+cube_font_depth                         = min(cube_dimensions_length,cube_dimensions_width,cube_dimensions_height)/32;
 
 // =============================================================================================================
 // Generate the cube
